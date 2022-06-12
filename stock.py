@@ -1,7 +1,7 @@
 import requests
 import os
 
-def getWatchList():
+def getWatchList(): # TODO: get 1000 top stocks by volume
     return ["IBM", "AAPL"]
 
 def fetchStock(ticker):
@@ -12,7 +12,7 @@ def fetchStock(ticker):
     timeSeries = fetchedJson['Time Series (Daily)']
     return timeSeries
 
-def fetchTopStocks():
+def fetchTopTradedStocks(): # TODO:
     return {
         'IBM': {}
     }
