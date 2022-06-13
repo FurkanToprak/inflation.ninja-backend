@@ -1,7 +1,10 @@
 import requests
 import os
+import logging
 
 ALPHA_VANTAGE_SECRET = os.getenv('ALPHA_VANTAGE_SECRET')
+
+logging.basicConfig('log/api.log', level=logging.INFO)
 
 def getWatchList():
     return [

@@ -1,6 +1,8 @@
 from api import fetchStock, fetchCPI
 from datetime import datetime
+import logging
 
+logging.basicConfig('log/stock_cache.log', level=logging.INFO)
 def marketIsOpen():
     # TODO: add holidays: https://www.nyse.com/markets/hours-calendars
     return datetime.today().weekday() < 5 # MTWTF are 0-4
@@ -23,9 +25,12 @@ class StockCache:
     def getEntry(self, ticker: str) -> dict | None:
         """ Gets stock/CPI and caches. """
         def refreshEntry():
-            freshEntry = fetchCPI() if ticker == "Inflation" else fetchStock(ticker) 
-            self.addEntry(ticker, freshEntry)
-
+            try:
+                freshEntry = fetchCPI() if ticker == "Inflation" else fetchStock(ticker) 
+                self.addEntry(ticker, freshEntry) # TODO: if fails, just skip
+            except Exception as err:
+                logging.info('Failed to fetch fresh data.')
+                logging.info(err)
         if ticker not in self._cache:
             refreshEntry()
         else:

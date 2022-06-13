@@ -7,6 +7,7 @@ import logging
 from stock_cache import StockCache
 from api import fetchStock
 
+logging.basicConfig('log/app.log', level=logging.INFO)
 
 app = Flask(__name__)
 appPort = os.getenv('APP_PORT')
@@ -28,4 +29,3 @@ def getStock():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=appPort, debug=True)
-    app.logger.setLevel(logging.DEBUG)
