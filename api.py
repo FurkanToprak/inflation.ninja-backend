@@ -3,8 +3,59 @@ import os
 
 ALPHA_VANTAGE_SECRET = os.getenv('ALPHA_VANTAGE_SECRET')
 
-def getWatchList(): # TODO: get 1000 top stocks by volume
-    return ["IBM", "AAPL"]
+def getWatchList():
+    return [
+        "AAPL",
+        "MSFT",
+        "AMZN",
+        "TSLA",
+        "BRK-B",
+        "META",
+        "TSM",
+        "JNJ",
+        "XOM",
+        "NVDA",
+        "V",
+        "JPM",
+        "CVX",
+        "PG",
+        "WMT",
+        "BAC",
+        "BABA",
+        "KO",
+        "ABBV",
+        "PEP",
+        # "SHEL",
+        # "MRK",
+        # "VZ",
+        # "AZN",
+        # "CMCSA",
+        # "DIS",
+        # "CSCO",
+        # "NKE",
+        # "ORCL",
+        # "CRM",
+        # "INTC",
+        # "BMY",
+        # "AMD",
+        # "WFC",
+        # "COP",
+        # "QCOM",
+        # "NEE",
+        # "T",
+        # "TXN",
+        # "RTX",
+        # "MS",
+        # "BX",
+        # "MDT",
+        # "C",
+        # "SCHW",
+        # "GSK",
+        # "BP",
+        # "JD",
+        # "PYPL",
+        # "AMAT",
+    ]
 
 def fetchStock(ticker):
     """
