@@ -15,7 +15,7 @@ def fetchStock(ticker):
 
 def fetchCPI() -> dict:
     """
-    Returns { "date": "YYYY-MM-DD", "value": "x.y" }[]
+    Returns { "YYYY-MM-DD": X.Y }
     """
     url = f'https://www.alphavantage.co/query?function=CPI&interval=monthly&apikey={ALPHA_VANTAGE_SECRET}'
     fetchedData = requests.get(url)
