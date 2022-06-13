@@ -4,7 +4,6 @@ import os
 import logging
 
 ALPHA_VANTAGE_SECRET = os.getenv('ALPHA_VANTAGE_SECRET')
-logging.basicConfig(filename='log/api.log', level=logging.INFO)
 
 def getTopTradedList():
     return [
@@ -18,16 +17,16 @@ def getTopTradedList():
         "JNJ",
         "XOM",
         "NVDA",
-        "V",
-        "JPM",
-        "CVX",
-        "PG",
-        "WMT",
-        "BAC",
-        "BABA",
-        "KO",
-        "ABBV",
-        "PEP",
+        # "V",
+        # "JPM",
+        # "CVX",
+        # "PG",
+        # "WMT",
+        # "BAC",
+        # "BABA",
+        # "KO",
+        # "ABBV",
+        # "PEP",
         # "SHEL",
         # "MRK",
         # "VZ",

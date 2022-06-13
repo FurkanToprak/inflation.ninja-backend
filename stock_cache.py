@@ -1,20 +1,27 @@
 from time import sleep
 from api import fetchStock, fetchCPI, getTopTradedList
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 
-logging.basicConfig(filename='log/stock_cache.log', level=logging.INFO)
-def marketIsOpen():
+logging.basicConfig(filename='log/stock_cache.log', level=logging.DEBUG)
+
+def getYesterday():
+    return datetime.today() - timedelta(days=1)
+
+def marketWasOpenYesterday():
     # TODO: add holidays: https://www.nyse.com/markets/hours-calendars
-    return datetime.today().weekday() < 5 # MTWTF are 0-4
+    return getYesterday().weekday() < 5 # MTWTF are 0-4
  
-def todayKey():
-    return datetime.today().strftime('%Y-%m-%d')
+def yesterdayKey():
+    return getYesterday().strftime('%Y-%m-%d')
 
 class StockCache:
     def __init__(self):
         self._cache = {}
-        self.requestQueue = []
+        # populate cache w top entries
+        logging.debug('Cache initialization started.')
+        self.getTopEntries()
+        logging.debug('Cache initialization done.')
     
     def addEntry(self, ticker: str, timeSeries: dict) -> None:
         self._cache[ticker] = timeSeries
@@ -30,21 +37,27 @@ class StockCache:
                 try:
                     freshEntry = fetchCPI() if ticker == "Inflation" else fetchStock(ticker) 
                     self.addEntry(ticker, freshEntry)
+                    logging.debug(f'[getEntry] Successfully fetched ${ticker}')
                     break
                 except Exception as err:
                     if apiRetry:
-                        logging.info('[Attempt 2] Failed to fetch fresh data. Aborting.')
+                        logging.info('[getEntry | Attempt 2] Failed to fetch fresh data. Aborting.')
                         return None
                     apiRetry = True
-                    logging.info('[Attempt 1] Failed to fetch fresh data.')
+                    logging.info('[getEntry | Attempt 1] Failed to fetch fresh data.')
                     logging.info(err)
                     sleep(60) # Likely API limit hit, wait minute.
         if ticker not in self._cache:
+            logging.debug(f'[getEntry] ${ticker} not cached.')
             refreshEntry()
         else:
             tickerData = self._cache.get(ticker)
-            if marketIsOpen() and todayKey() not in tickerData:
+            if marketWasOpenYesterday() and yesterdayKey() not in tickerData:
+                logging.debug(f'[getEntry] ${ticker} cached but not fresh.')
                 refreshEntry()
+            else:
+                logging.debug(f'[getEntry] ${ticker} cached and fresh.')
+
 
         return self._cache.get(ticker)
     
