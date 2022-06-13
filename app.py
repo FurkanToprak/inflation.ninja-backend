@@ -12,7 +12,7 @@ logging.basicConfig(filename='log/app.log', level=logging.INFO)
 app = Flask(__name__)
 appPort = os.getenv('APP_PORT')
 
-stockCache = StockCache()
+stockCache = None
 
 @app.route("/getTopStocks", methods=["GET"])
 def getTopStocks():
@@ -29,3 +29,4 @@ def getStock():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=appPort, debug=True)
+    stockCache = StockCache()
