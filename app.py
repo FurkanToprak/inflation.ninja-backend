@@ -1,11 +1,11 @@
 from dotenv import load_dotenv
+load_dotenv()
+
 from flask import Flask, request, jsonify
 import os
 import logging
 from stock_cache import StockCache
-from stock import fetchStock
-
-load_dotenv()
+from api import fetchStock
 
 
 app = Flask(__name__)

@@ -1,4 +1,4 @@
-from stock import fetchStock
+from api import fetchStock, fetchCPI
 from datetime import datetime
 
 def marketIsOpen():
@@ -11,14 +11,19 @@ def todayKey():
 class StockCache:
     def __init__(self):
         self._cache = {}
-        # TODO: create workers that run daily to update stock values + update best returns
+        
+        # TODO: create workers that run daily to update top stocks + returns over intervals
+    
+    def addEntry(self, ticker: str, timeSeries: dict) -> None:
+        self._cache[ticker] = timeSeries
 
     def clearEntry(self, ticker: str) -> None:
         self._cache.pop(ticker)
     
     def getEntry(self, ticker: str) -> dict | None:
+        """ Gets stock/CPI and caches. """
         def refreshEntry():
-            freshEntry = fetchStock(ticker)
+            freshEntry = fetchCPI() if ticker == "Inflation" else fetchStock(ticker) 
             self.addEntry(ticker, freshEntry)
 
         if ticker not in self._cache:
