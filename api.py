@@ -25,10 +25,14 @@ def fetchStock(ticker):
     stock = dict()
     for day in timeSeries.keys():
         datum = timeSeries[day]
+        openValue = float(datum["1. open"])
+        closeValue = float(datum["4. close"])
         highValue = float(datum["2. high"])
         lowValue = float(datum["3. low"])
         volumeValue = int(datum["5. volume"])
         stock[day] = {
+            'open': openValue,
+            'close': closeValue,
             'high': highValue,
             'low': lowValue,
             'volume': volumeValue,
