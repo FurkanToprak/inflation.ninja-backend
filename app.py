@@ -7,7 +7,7 @@ import logging
 from stock_cache import StockCache
 from api import fetchStock
 
-logging.basicConfig('log/app.log', level=logging.INFO)
+logging.basicConfig(filename='log/app.log', level=logging.INFO)
 
 app = Flask(__name__)
 appPort = os.getenv('APP_PORT')
@@ -16,7 +16,7 @@ stockCache = StockCache()
 
 @app.route("/getTopStocks", methods=["GET"])
 def getTopStocks():
-    return jsonify({'re': 'stockCache.getTopEntries()'})
+    return stockCache.getTopEntries()
 
 @app.route("/getStock", methods=["GET"])
 def getStock():

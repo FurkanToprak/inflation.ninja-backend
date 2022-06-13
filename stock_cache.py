@@ -1,8 +1,9 @@
-from api import fetchStock, fetchCPI
+from time import sleep
+from api import fetchStock, fetchCPI, getTopTradedList
 from datetime import datetime
 import logging
 
-logging.basicConfig('log/stock_cache.log', level=logging.INFO)
+logging.basicConfig(filename='log/stock_cache.log', level=logging.INFO)
 def marketIsOpen():
     # TODO: add holidays: https://www.nyse.com/markets/hours-calendars
     return datetime.today().weekday() < 5 # MTWTF are 0-4
@@ -13,8 +14,7 @@ def todayKey():
 class StockCache:
     def __init__(self):
         self._cache = {}
-        
-        # TODO: create workers that run daily to update top stocks + returns over intervals
+        self.requestQueue = []
     
     def addEntry(self, ticker: str, timeSeries: dict) -> None:
         self._cache[ticker] = timeSeries
@@ -25,12 +25,20 @@ class StockCache:
     def getEntry(self, ticker: str) -> dict | None:
         """ Gets stock/CPI and caches. """
         def refreshEntry():
-            try:
-                freshEntry = fetchCPI() if ticker == "Inflation" else fetchStock(ticker) 
-                self.addEntry(ticker, freshEntry) # TODO: if fails, just skip
-            except Exception as err:
-                logging.info('Failed to fetch fresh data.')
-                logging.info(err)
+            apiRetry = False
+            while True:
+                try:
+                    freshEntry = fetchCPI() if ticker == "Inflation" else fetchStock(ticker) 
+                    self.addEntry(ticker, freshEntry)
+                    break
+                except Exception as err:
+                    if apiRetry:
+                        logging.info('[Attempt 2] Failed to fetch fresh data. Aborting.')
+                        return None
+                    apiRetry = True
+                    logging.info('[Attempt 1] Failed to fetch fresh data.')
+                    logging.info(err)
+                    sleep(60) # Likely API limit hit, wait minute.
         if ticker not in self._cache:
             refreshEntry()
         else:
@@ -40,6 +48,10 @@ class StockCache:
 
         return self._cache.get(ticker)
     
-    def getTopEntries(self, period: str) -> dict:
-        # TODO: find and separate calcs by inflationary periods, timeframes, etc.
-        return self._cache
+    def getTopEntries(self) -> dict:
+        stockList = getTopTradedList()
+        topStocks = dict()
+        for stock in stockList:
+            stockValue = self.getEntry(stock)
+            topStocks[stock] = stockValue
+        return topStocks

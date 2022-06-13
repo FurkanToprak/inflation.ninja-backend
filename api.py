@@ -1,12 +1,12 @@
+from time import sleep
 import requests
 import os
 import logging
 
 ALPHA_VANTAGE_SECRET = os.getenv('ALPHA_VANTAGE_SECRET')
+logging.basicConfig(filename='log/api.log', level=logging.INFO)
 
-logging.basicConfig('log/api.log', level=logging.INFO)
-
-def getWatchList():
+def getTopTradedList():
     return [
         "AAPL",
         "MSFT",
@@ -107,7 +107,3 @@ def fetchCPI() -> dict:
         cpi[key] = float(value)
     return cpi
 
-def fetchTopTradedStocks(): # TODO:
-    return {
-        'IBM': {}
-    }
