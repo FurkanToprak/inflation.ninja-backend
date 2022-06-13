@@ -1,6 +1,3 @@
 requests
-os
-logging
 python-dotenv
 flask
-datetime
