@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from flask import Flask
+from flask import Flask, request, jsonify
 import os
 import logging
 from stock_cache import StockCache
@@ -7,18 +7,25 @@ from stock import fetchStock
 
 load_dotenv()
 
-flaskApp = Flask(__name__)
+
+app = Flask(__name__)
 appPort = os.getenv('APP_PORT')
 
 stockCache = StockCache()
 
-if __name__ == '__main__':
-    flaskApp.run(host='0.0.0.0', port=appPort, debug=True)
-
-@flaskApp.route("/getTopStocks", methods=["POST"])
+@app.route("/getTopStocks", methods=["GET"])
 def getTopStocks():
-    return stockCache.getTopEntries()
+    return jsonify({'re': 'stockCache.getTopEntries()'})
 
-@flaskApp.route("/getStock", methods=["POST"])
+@app.route("/getStock", methods=["GET"])
 def getStock():
-    return stockCache.getEntry()
+    """ 
+    Gets daily data on a stock from the cache. 
+    If not in cache, fetches from AlphaVantage API. 
+    """
+    ticker = request.args['ticker']
+    return stockCache.getEntry(ticker)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=appPort, debug=True)
+    app.logger.setLevel(logging.DEBUG)

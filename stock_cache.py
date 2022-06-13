@@ -1,25 +1,33 @@
 from stock import fetchStock
+from datetime import datetime
+
+def marketIsOpen():
+    # TODO: add holidays: https://www.nyse.com/markets/hours-calendars
+    return datetime.today().weekday() < 5 # MTWTF are 0-4
+ 
+def todayKey():
+    return datetime.today().strftime('%Y-%m-%d')
 
 class StockCache:
     def __init__(self):
         self._cache = {}
         # TODO: create workers that run daily to update stock values + update best returns
-    
-    def addEntry(self, ticker: str, timeSeries: dict) -> None:
-        self._cache[ticker] = timeSeries
-
-    def updateEntry(self, ticker: str, dayKey: str, dayValue: dict) -> None:
-        staleEntry: dict = self._cache.get(ticker)
-        staleEntry[dayKey] = dayValue
-        self._cache[ticker] = staleEntry
 
     def clearEntry(self, ticker: str) -> None:
         self._cache.pop(ticker)
     
     def getEntry(self, ticker: str) -> dict | None:
-        if ticker not in self._cache:
+        def refreshEntry():
             freshEntry = fetchStock(ticker)
             self.addEntry(ticker, freshEntry)
+
+        if ticker not in self._cache:
+            refreshEntry()
+        else:
+            tickerData = self._cache.get(ticker)
+            if marketIsOpen() and todayKey() not in tickerData:
+                refreshEntry()
+
         return self._cache.get(ticker)
     
     def getTopEntries(self, period: str) -> dict:
