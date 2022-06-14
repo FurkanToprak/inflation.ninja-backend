@@ -6,4 +6,4 @@ COPY *.py ./
 COPY .env .
 RUN pip3 install -r requirements.txt
 RUN mkdir log
-CMD ["python3", "./app.py"]
+RUN python3 -m gunicorn -b 0.0.0.0:8080 -t 0 app:app
