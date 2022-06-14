@@ -3,7 +3,7 @@ from api import fetchStock, fetchCPI, getTopTradedList
 from datetime import datetime, timedelta
 import logging
 
-logging.basicConfig(filename='log/stock_cache.log', level=logging.DEBUG)
+logging.basicConfig(filename='log/stock_cache.log', level=logging.INFO)
 
 def getYesterday():
     return datetime.today() - timedelta(days=1)
@@ -19,9 +19,9 @@ class StockCache:
     def __init__(self):
         self._cache = {}
         # populate cache w top entries
-        logging.debug('Cache initialization started.')
+        logging.info('Cache initialization started.')
         self.getTopEntries()
-        logging.debug('Cache initialization done.')
+        logging.info('Cache initialization done.')
     
     def addEntry(self, ticker: str, timeSeries: dict) -> None:
         self._cache[ticker] = timeSeries
