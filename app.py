@@ -14,6 +14,10 @@ appPort = os.getenv('APP_PORT')
 
 stockCache = StockCache()
 
+@app.route('/', methods=["GET"])
+def health():
+    return 'Hello, World!'
+
 @app.route("/getTopStocks", methods=["GET"])
 def getTopStocks():
     return stockCache.getTopEntries()
