@@ -28,5 +28,5 @@ def getStock():
     return stockCache.getEntry(ticker)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=appPort, debug=True)
     stockCache = StockCache()
+    app.run(host='0.0.0.0', port=appPort)
