@@ -8,8 +8,18 @@ ALPHA_VANTAGE_SECRET = os.getenv('ALPHA_VANTAGE_SECRET')
 def getTopTradedList():
     return [
         "AAPL",
+        "F",
+        "COST",
+        "GOOGL",
+        "MCD",
         "MSFT",
+        "COKE",
+        "COF",
+        "CRM",
+        "AMD",
         "AMZN",
+        "NFLX",
+        "SBUX",
         "TSLA",
         "BRK-B",
         "META",
