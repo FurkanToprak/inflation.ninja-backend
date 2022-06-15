@@ -10,22 +10,22 @@ Flask backend for inflation.ninja
 Exposed locally at `http://172.17.0.2:8080`
 
 ## Deploying on AWS Lightsail
-# TODO: just use docker hub container service
 
-## Build and run Docker image
-`./deployScript.sh`
+### Build Docker Container
+`./scripts/build_docker.sh`
 
-## Tag container
+### Tag container
 `docker tag inflation-ninja-backend furkantoprak/inflation-ninja-backend`
 
-## Login to Docker Hub
+### Login to Docker Hub
 `docker login`
 
-## Push to Docker Hub
+### Push to Docker Hub
 `docker push furkantoprak/inflation-ninja-backend`
 
-## Deploy Container on AWS Lightsail
+### Deploy Container on AWS Lightsail
 `https://lightsail.aws.amazon.com/ls/webapp/home/containers`
 
-## Kill
+## Local Development
+### Kill Container Locally
 `docker container list` and `docker container kill <id>`
