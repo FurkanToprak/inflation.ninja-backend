@@ -11,14 +11,18 @@ Exposed locally at `http://172.17.0.2:8080`
 
 ## Deploying on AWS Lightsail
 # TODO: just use docker hub container service
-```
-aws lightsail create-container-service --service-name flask-service --power small --scale 1
-```
 
-```
-aws lightsail push-container-image --service-name flask-service --label flask-container --image flask-container
-```
+## Build and run Docker image
+`./deployScript.sh`
 
-```
-aws lightsail create-container-service-deployment --service-name flask-service --containers file://containers.json --public-endpoint file://public-endpoint.json
-```
+## Tag container
+`docker tag inflation-ninja-backend furkantoprak/inflation-ninjabackend`
+
+## Login to Docker Hub
+`docker login`
+
+## Push to Docker Hub
+`docker push furkantoprak/inflation-ninja-backend`
+
+## Deploy Container on AWS Lightsail
+`https://lightsail.aws.amazon.com/ls/webapp/home/containers`
