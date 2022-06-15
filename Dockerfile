@@ -7,4 +7,4 @@ COPY *.py ./
 COPY .env .
 COPY boot_gunicorn.sh .
 RUN mkdir log
-ENTRYPOINT ["./boot_gunicorn.sh"]
+CMD ["./boot_gunicorn.sh"]

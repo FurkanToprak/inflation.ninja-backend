@@ -11,14 +11,14 @@ Exposed locally at `http://172.17.0.2:8080`
 
 ## Deploying on AWS Lightsail
 
+### Login to Docker Hub
+`docker login`
+
 ### Build Docker Container
 `./scripts/build_docker.sh`
 
 ### Tag container
 `docker tag inflation-ninja-backend furkantoprak/inflation-ninja-backend`
-
-### Login to Docker Hub
-`docker login`
 
 ### Push to Docker Hub
 `docker push furkantoprak/inflation-ninja-backend`
