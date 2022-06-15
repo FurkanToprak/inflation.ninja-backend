@@ -1,1 +1,1 @@
-docker build --platform=linux/amd64 -t inflation-ninja-backend . && docker run -p 8080:8080 inflation-ninja-backend
+docker buildx build --platform=linux/amd64 -t inflation-ninja-backend . && docker run -p 8080:8080 inflation-ninja-backend

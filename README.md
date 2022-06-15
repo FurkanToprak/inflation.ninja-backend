@@ -16,7 +16,7 @@ Exposed locally at `http://172.17.0.2:8080`
 `./deployScript.sh`
 
 ## Tag container
-`docker tag inflation-ninja-backend furkantoprak/inflation-ninjabackend`
+`docker tag inflation-ninja-backend furkantoprak/inflation-ninja-backend`
 
 ## Login to Docker Hub
 `docker login`
