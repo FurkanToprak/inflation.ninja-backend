@@ -26,3 +26,6 @@ Exposed locally at `http://172.17.0.2:8080`
 
 ## Deploy Container on AWS Lightsail
 `https://lightsail.aws.amazon.com/ls/webapp/home/containers`
+
+## Kill
+`docker container list` and `docker container kill <id>`
