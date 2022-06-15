@@ -10,6 +10,7 @@ Flask backend for inflation.ninja
 Exposed locally at `http://172.17.0.2:8080`
 
 ## Deploying on AWS Lightsail
+# TODO: just use docker hub container service
 ```
 aws lightsail create-container-service --service-name flask-service --power small --scale 1
 ```
