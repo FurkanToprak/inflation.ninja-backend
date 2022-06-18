@@ -6,10 +6,12 @@ import os
 import logging
 from stock_cache import StockCache
 from api import fetchStock
+from flask_cors import CORS
 
 logging.basicConfig(filename='log/app.log', level=logging.INFO)
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"*": {"origins": "*"}})
 appPort = os.getenv('APP_PORT')
 
 stockCache = StockCache()
