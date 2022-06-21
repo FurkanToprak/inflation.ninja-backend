@@ -26,7 +26,7 @@ def fetchStock(ticker):
     },
     }
     """
-    url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={ticker}&apikey={ALPHA_VANTAGE_SECRET}'
+    url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=full&symbol={ticker}&apikey={ALPHA_VANTAGE_SECRET}'
     fetchedData = requests.get(url)
     fetchedJson = fetchedData.json()
     timeSeries = fetchedJson['Time Series (Daily)']
@@ -51,7 +51,7 @@ def fetchCPI() -> dict:
     """
     Returns { "YYYY-MM-DD": X.Y }
     """
-    url = f'https://www.alphavantage.co/query?function=CPI&interval=monthly&apikey={ALPHA_VANTAGE_SECRET}'
+    url = f'https://www.alphavantage.co/query?function=CPI&interval=monthly&outputsize=full&apikey={ALPHA_VANTAGE_SECRET}'
     fetchedData = requests.get(url)
     fetchedJson = fetchedData.json()
     cpi = dict()
